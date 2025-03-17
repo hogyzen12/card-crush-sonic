@@ -19,7 +19,7 @@ const candyImages = [
 const matchGif = "assets/animations/burn.gif";
 const catGif = "assets/CAT.gif";
 const successGif = "assets/SUCCESS.gif";
-const sonicLogo = "assets/snclgo.svg";
+const sonicLogo = "assets/soniclogo.avif";
 
 export function HowToPlay() {
   return (
@@ -53,7 +53,7 @@ export function HowToPlay() {
           <img src={sonicLogo} alt="SONIC Rewards" />
           <div>
             <h2>SONIC Rewards</h2>
-            <p>Earn SONIC tokens for each level you complete! We've allocated a total of 42 SONIC tokens as rewards across all levels, with later levels offering higher rewards. Your total earned SONIC is displayed in your Progress tab.</p>
+            <p>Earn SONIC tokens for each level you complete! We've allocated a total of 42 SONIC tokens per player as rewards across all levels, with later levels offering higher rewards. Your total earned SONIC is displayed in your Progress tab. This will be distributed once the Mobius hackathon completes.</p>
           </div>
         </div>
       </section>
@@ -117,7 +117,7 @@ export function HowToPlay() {
         </ul>
         <div className="community-support">
           <h3>Support Us!</h3>
-          <p>If we win, we'll distribute 10% of our SONIC tokens to players who played the game! Help us win by following and interacting with us on Twitter:</p>
+          <p>If we win, we'll distribute 69% of our unlocked SONIC tokens to players who played the game! Help us win by following and interacting with us on Twitter:</p>
           <a 
             href="https://x.com/CardCrushSONIC" 
             target="_blank" 
