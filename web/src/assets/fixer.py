@@ -39,7 +39,7 @@ def process_images(directory):
                 cropped_img.save(filepath)
 
 # Specify the directory containing the PNG files
-directory_path = '/Users/hogyzen12/coding-project-folders/card-crush-web/web/src/assets'
+directory_path = '/Users/hogyzen12/coding-project-folders/card-crush-sonic/web/src/assets'
 
 # Process the images
 process_images(directory_path)

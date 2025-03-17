@@ -76,12 +76,15 @@ export function GlobalLeaderboard() {
       };
     });
 
+    // Create a set of known level seeds for filtering
+    const knownLevelSeeds = new Set(levelData.map(level => level.seed));
+
     // Process all entries
     entries.forEach(entry => {
       // Track unique players
       uniquePlayers.add(entry.wallet || 'unknown');
 
-      // Track player scores
+      // Track player scores (include all entries for player stats)
       if (entry.wallet) {
         if (!playerScores[entry.wallet]) {
           playerScores[entry.wallet] = {totalScore: 0, levelsCompleted: 0};
@@ -90,20 +93,19 @@ export function GlobalLeaderboard() {
         playerScores[entry.wallet].levelsCompleted += 1;
       }
 
-      // Group by level
-      if (!entriesByLevel[entry.seed]) {
-        entriesByLevel[entry.seed] = [];
+      // Only group entries for known levels
+      if (knownLevelSeeds.has(entry.seed)) {
+        if (!entriesByLevel[entry.seed]) {
+          entriesByLevel[entry.seed] = [];
+        }
+        entriesByLevel[entry.seed].push(entry);
       }
-      entriesByLevel[entry.seed].push(entry);
     });
 
-    // Calculate statistics for each level
+    // Calculate statistics for known levels only
     const stats: LevelStats[] = Object.keys(entriesByLevel).map(seed => {
       const levelEntries = entriesByLevel[seed];
-      const levelInfo = levelData.find(l => l.seed === seed) || {
-        id: 0,
-        name: `Unknown Level (${seed.substring(0, 8)}...)`
-      };
+      const levelInfo = levelData.find(l => l.seed === seed)!; // We know this exists due to filtering
       
       // Calculate total and average scores
       const totalScore = levelEntries.reduce((sum, entry) => sum + entry.score, 0);
@@ -132,34 +134,8 @@ export function GlobalLeaderboard() {
 
     // Sort level stats by level ID
     stats.sort((a, b) => a.levelId - b.levelId);
-    
-    // Process unknown levels (not in level data but have entries)
-    const knownSeeds = new Set(levelData.map(level => level.seed));
-    Object.keys(entriesByLevel).forEach(seed => {
-      if (!knownSeeds.has(seed) && initialLevelStats[seed] === undefined) {
-        const levelEntries = entriesByLevel[seed];
-        const totalScore = levelEntries.reduce((sum, entry) => sum + entry.score, 0);
-        const averageScore = levelEntries.length > 0 ? totalScore / levelEntries.length : 0;
-        const highScoreEntry = levelEntries.reduce((highest, entry) => 
-          (entry.score > highest.score) ? entry : highest, 
-          levelEntries[0]
-        );
-        const uniqueLevelPlayers = new Set(levelEntries.map(entry => entry.wallet || 'unknown'));
-        
-        stats.push({
-          levelId: 9999, // High number for unknown levels
-          levelName: `Unknown Level (${seed.substring(0, 8)}...)`,
-          playersCompleted: uniqueLevelPlayers.size,
-          averageScore: averageScore,
-          highScore: highScoreEntry ? highScoreEntry.score : 0,
-          highScorePlayer: highScoreEntry ? (highScoreEntry.wallet || 'unknown') : '',
-          highScoreDate: highScoreEntry ? highScoreEntry.date : '',
-          totalPlays: levelEntries.length
-        });
-      }
-    });
 
-    // Calculate top players
+    // Calculate top players (using all entries, including unknown levels)
     const topPlayersList = Object.entries(playerScores)
       .map(([wallet, data]) => ({
         wallet, 
@@ -180,10 +156,10 @@ export function GlobalLeaderboard() {
     return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
   };
 
-  // Generate a solscan link for a wallet address
-  const getSolscanWalletLink = (wallet: string) => {
+  // Generate a explorer link for a wallet address
+  const getExplorerWalletLink = (wallet: string) => {
     if (!wallet || wallet === 'unknown') return '#';
-    return `https://solscan.io/account/${wallet}`;
+    return `https://explorer.sonic.game/address/${wallet}`;
   };
 
   return (
@@ -249,7 +225,7 @@ export function GlobalLeaderboard() {
                       <td className="py-2 px-3 text-sm font-medium">#{index + 1}</td>
                       <td className="py-2 px-3 text-sm">
                         <a 
-                          href={getSolscanWalletLink(player.wallet)} 
+                          href={getExplorerWalletLink(player.wallet)} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-blue-400 hover:underline"
@@ -271,7 +247,7 @@ export function GlobalLeaderboard() {
             </div>
           </div>
 
-          {/* Level Statistics */}
+          {/* Level Statistics - Only Known Levels */}
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-3">Level Statistics</h2>
             <div className="overflow-x-auto">
@@ -297,7 +273,7 @@ export function GlobalLeaderboard() {
                       <td className="py-2 px-3 text-sm">
                         {stat.highScorePlayer !== 'unknown' ? (
                           <a 
-                            href={getSolscanWalletLink(stat.highScorePlayer)} 
+                            href={getExplorerWalletLink(stat.highScorePlayer)} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-blue-400 hover:underline"

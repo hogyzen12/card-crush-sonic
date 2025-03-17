@@ -73,9 +73,9 @@ export function PlayerHistory() {
     return `${str.substring(0, length)}...`;
   };
 
-  // Generate a solscan link for a signature
-  const getSolscanLink = (signature: string) => {
-    return `https://solscan.io/tx/${signature}`;
+  // Generate a explorer link for a signature
+  const getExplorerLink = (signature: string) => {
+    return `https://explorer.sonic.game/tx/${signature}`;
   };
   
   // Handle navigation to the game with the next level seed
@@ -218,7 +218,7 @@ export function PlayerHistory() {
                                 <h4 className="text-xs font-semibold text-gray-400 mb-1">Transaction</h4>
                                 {level.signature ? (
                                   <a 
-                                    href={getSolscanLink(level.signature)} 
+                                    href={getExplorerLink(level.signature)} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     className="text-blue-400 hover:underline text-xs"

@@ -5,7 +5,6 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { getWalletBalance } from './utils/wallet';
 import { createSonicTx } from './transactionSonic';
 import { CSSProperties } from 'react';
-import { getRandomSeed } from './utils/seedUtils'; // New utility import
 import { fetchLevels, updateLevelStatus, getNextAvailableLevel } from './utils/levelManager';
 import { fetchGameTransactionHistory } from './utils/transactionHistory';
 
@@ -652,7 +651,7 @@ export function SonicGameScreen() {
         status = await getTransactionStatus(txid);
         console.log(status);
         if (status) {
-          setTransactionStatus(`TX confirmed! Explorer link: <a href="https://solscan.io/tx/${txid}" target="_blank" rel="noopener noreferrer"> TX Link</a>`);
+          setTransactionStatus(`TX confirmed! Explorer link: <a href="https://explorer.sonic.game/tx/${txid}" target="_blank" rel="noopener noreferrer"> TX Link</a>`);
           setTransactionProcessing(false);
           break;
         }
