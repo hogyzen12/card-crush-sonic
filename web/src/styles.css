@@ -1,0 +1,497 @@
+/* Base styles */
+html,
+body,
+#root {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/* Tailwind CSS base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer utilities {
+  .bg-gold {
+    background-color: #d4af37; /* Gold color */
+  }
+
+  .border-gold {
+    border-color: #d4af37; /* Gold color */
+  }
+
+  .hover\:bg-black:hover {
+    background-color: #000; /* Black on hover */
+  }
+
+  .hover\:text-gold:hover {
+    color: #d4af37; /* Gold text on hover */
+  }
+
+  .text-gold {
+    color: #d4af37; /* Gold color */
+  }
+}
+
+/* Ensure the buttons are clearly visible */
+button {
+  transition: all 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Larger button styles */
+.btn-large {
+  width: 175px;
+  height: 50px;
+  font-size: 1.25rem;
+}
+
+/* New custom button styles */
+.button-primary {
+  @apply bg-yellow-400 text-black font-bold px-6 py-2 rounded-full;
+}
+
+.button-primary:hover {
+  @apply bg-yellow-500;
+}
+
+/* Prize pool display styles */
+.prize-pool-display {
+  @apply bg-gray-900 text-gold font-bold px-4 py-2 rounded-full;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.overlay.visible {
+  display: block;
+}
+.popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 20px;
+  z-index: 1000;
+}
+.popup.visible {
+  display: block;
+}
+
+/* Centering container */
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;text-align: center;
+  padding-top: 10px; /* Adjust this value to reduce the top gap */
+}
+
+/* Button container */
+.button-container-top {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0; /* Ensure the buttons are at the top */
+  width: 100%; /* Make sure it takes full width */
+}
+
+.selected-tile {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.selected-tile::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 4px solid #6d6222; /* Gold color for the border */
+  pointer-events: none; /* Ensure the border doesn't interfere with clicking */
+  box-shadow: 0 0 10px #6d6222; /* Optional: add some glow effect */
+  z-index: 1; /* Ensure the pseudo-element is on top */
+  border-radius: 4px; /* Adjust if you need rounded corners */
+}
+
+/* Responsive game board */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-size), 1fr);
+  grid-template-rows: repeat(var(--board-size), 1fr);
+  gap: 1px;
+  max-width: 700px;
+  max-height: 90vh;
+  margin: 0 auto;
+}
+
+.game-tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Media queries for different screen sizes */
+@media (min-width: 4200px) {
+  .game-board {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1px;
+  }
+}
+
+
+/* Animated change for turn and points */
+@keyframes change {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animate-change {
+  animation: change 0.5s ease-in-out;
+}
+
+/* Status item styles */
+.status-item {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 5px 10px;
+  background: #333;
+  border-radius: 8px;
+  color: #d4af37;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Center status container */
+.status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+/* Center status items */
+.status-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+/* Volume button and slider container */
+.volume-control-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Volume button */
+.volume-button {
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Volume icon */
+.volume-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Volume slider */
+.volume-control-container .slider {
+  width: 100px;
+  margin-left: 10px;
+  background-color: #d4af37; /* Gold color for the slider */
+  position: absolute;
+  top: 0;
+  left: 30px;
+  display: none;
+}
+
+.volume-control-container:hover .slider {
+  display: block;
+}
+
+/* Footer container to center buttons */
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* Additional styles for HowToPlay component */
+.how-to-play {
+  padding: 20px;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.how-to-play .title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #d4af37;
+}
+
+.how-to-play .instructions, .special-cards, .bonk-rewards {
+  margin-bottom: 20px;
+}
+
+.instruction-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.instruction-item img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.instruction-item h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #d4af37;
+}
+
+.instruction-item p {
+  margin: 0;
+}
+
+.special-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.special-card {
+  display: flex;
+  align-items: center;
+}
+
+.special-card img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.special-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #d4af37;
+}
+
+.special-card p {
+  margin: 0;
+}
+
+@media (min-width: 700px) {
+  .special-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button-container-bonk {
+  display: flex;
+  gap: 10px;
+}
+
+/* Responsive button styles */
+@media (max-width: 700px) {
+  .button-container-top {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0; /* Ensure the buttons are at the top */
+    padding-top: 10px; /* Ensure padding at the top is consistent */
+  }
+
+  .button-primary {
+    width: 100%;
+  }
+
+  .centered-container {
+    padding-top: 0; /* Remove any padding that causes extra space */
+    justify-content: flex-start; /* Align items to the top */
+  }
+}
+
+.sonic-display {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sonic-display img {
+  margin-right: 0.5rem;
+}
+
+.sound-control-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Sound button */
+.sound-button {
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Sound icon */
+.sound-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Player History styles */
+.player-history-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rewards-summary {
+  background-color: rgba(30, 30, 30, 0.7);
+  border: 1px solid #444;
+  border-left: 4px solid #d4af37;
+}
+
+.game-details {
+  background-color: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+@media (max-width: 640px) {
+  .player-history-container {
+    padding: 10px;
+  }
+  
+  .player-history-container table {
+    font-size: 0.85rem;
+  }
+  
+  .player-history-container th,
+  .player-history-container td {
+    padding: 8px 4px;
+  }
+}
+/* Sound icon */
+.sound-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Player History styles */
+.player-history-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.progress-summary {
+  background-color: rgba(30, 30, 30, 0.7);
+  border: 1px solid #444;
+  border-left: 4px solid #d4af37;
+}
+
+.player-history-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.player-history-container th {
+  background-color: #1a1a1a;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  color: #d4af37;
+  font-size: 0.9rem;
+}
+
+.player-history-container td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+.player-history-container tbody tr {
+  transition: background-color 0.2s;
+}
+
+.player-history-container tbody tr:hover {
+  background-color: rgba(50, 50, 50, 0.7);
+}
+
+@media (max-width: 768px) {
+  .player-history-container {
+    padding: 10px;
+  }
+  
+  .player-history-container table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .player-history-container th,
+  .player-history-container td {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,57 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+web/src/assets/venv
+# compiled output
+dist
+tmp
+/out-tsc
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.nx/cache
+leaderboard.json
+bonk_calc.sh
+web/src/assets/oldcards/tetsu.png
+web/src/assets/oldcards/otter.png
+web/src/assets/oldcards/nyla.png
+web/src/assets/oldcards/jules.png
+web/src/assets/oldcards/bonk.png
+web/src/assets/oldcards/backpack.png
+
+entry-management-bonk/leaderboard_*
+leaderboard_new.json
+leaderboard_old.json
+BONK_V1.txt
+BONK_v2.txt
+bonk_received.txt
+bonk_calc_new.sh
