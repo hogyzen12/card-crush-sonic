@@ -35,7 +35,6 @@
 ├── package-lock.json
 ├── package.json
 ├── postcss.config.js
-├── stash_game.txt
 ├── tailwind.config.js
 ├── tsconfig.base.json
 └── web
@@ -60,18 +59,16 @@
     │   │   ├── SUCCESS.gif
     │   │   ├── animations
     │   │   ├── audio
-    │   │   ├── banner.png
+    │   │   ├── cc.png
     │   │   ├── fixer.py
     │   │   ├── levels.txt
     │   │   ├── logo.png
     │   │   ├── mute.png
     │   │   ├── newcards
-    │   │   ├── oldcards
     │   │   ├── snc.webp
     │   │   ├── snclgo.svg
-    │   │   ├── unmute.png
-    │   │   └── venv
-    │   ├── favicon.ico
+    │   │   ├── soniclogo.avif
+    │   │   └── unmute.png
     │   ├── global.d.ts
     │   ├── index.html
     │   ├── main.tsx
@@ -83,4 +80,4 @@
     ├── tsconfig.json
     └── webpack.config.js
 
-23 directories, 61 files
+21 directories, 60 files

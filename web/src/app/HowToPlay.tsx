@@ -5,7 +5,7 @@ const candyImages = [
   "assets/newcards/bck.PNG",
   "assets/newcards/bnk.PNG",
   "assets/newcards/fre.PNG",
-  "assets/newcards/inu.PNG",
+  "assets/newcards/snc.PNG",
   "assets/newcards/jls.PNG",
   "assets/newcards/jto.PNG",
   "assets/newcards/nyl.PNG",
@@ -19,7 +19,7 @@ const candyImages = [
 const matchGif = "assets/animations/burn.gif";
 const catGif = "assets/CAT.gif";
 const successGif = "assets/SUCCESS.gif";
-const bonkPNG = "assets/BONKlogo.png";
+const sonicLogo = "assets/snclgo.svg";
 
 export function HowToPlay() {
   return (
@@ -34,27 +34,26 @@ export function HowToPlay() {
         </div>
 
         <div className="instruction-item">
-          <img src={catGif} alt="Submit Scores" />
+          <img src={catGif} alt="Level System" />
+          <div>
+            <h2>Level Progression System</h2>
+            <p>Complete levels to unlock the next challenge. Each level has a unique board layout based on its seed. As you progress through levels, you'll earn SONIC tokens as rewards. Harder levels offer greater rewards!</p>
+          </div>
+        </div>
+
+        <div className="instruction-item">
+          <img src={successGif} alt="Submit Scores" />
           <div>
             <h2>Submit Scores</h2>
-            <p>Submit your scores on-chain to get rewarded with BONK. Rewards distributed directly to your entry wallet. The BONKATHON game will run until the end of the hackathon - expected to be the 10th of July.</p>
+            <p>After completing your moves, submit your score on-chain to track your progress and collect SONIC rewards. Your completed levels and scores are recorded on the Sonic blockchain and displayed in your Progress tab.</p>
           </div>
         </div>
 
         <div className="instruction-item">
-          <img src={successGif} alt="Daily Play & Streak Mechanic" />
+          <img src={sonicLogo} alt="SONIC Rewards" />
           <div>
-            <h2>Daily Play & Streak Mechanic</h2>
-            <p>A new initial board goes live every day at midnight (00:00 UTC). Show up daily to build a streak. Compete daily to get the most points, highest streak, and the most BONK in rewards!</p>
-          </div>
-        </div>
-
-        <div className="instruction-item">
-          <img src={bonkPNG} alt="BONK Rewards" />
-          <div>
-            <h2>BONK Rewards</h2>
-            <p>We have purchased 100 Million BONK to reward players. Rewards are based on the formula:</p>
-            <p><strong>BONK received = total points × streak.</strong></p>
+            <h2>SONIC Rewards</h2>
+            <p>Earn SONIC tokens for each level you complete! We've allocated a total of 42 SONIC tokens as rewards across all levels, with later levels offering higher rewards. Your total earned SONIC is displayed in your Progress tab.</p>
           </div>
         </div>
       </section>
@@ -104,7 +103,32 @@ export function HowToPlay() {
           </div>
         </div>
       </section>
+
+      <section className="hackathon-info">
+        <h2>Mobius Hackathon</h2>
+        <p>Card Crush is competing in the Sonic Mobius Hackathon with the following prize pool:</p>
+        <ul className="prize-list">
+          <li><strong>1st Place</strong> – $80,000</li>
+          <li><strong>2nd Place</strong> – $50,000</li>
+          <li><strong>3rd Place</strong> – $20,000</li>
+          <li>50% in stablecoins</li>
+          <li>10% in unlocked $SONIC</li>
+          <li>40% in $SONIC with a 12-month vesting schedule</li>
+        </ul>
+        <div className="community-support">
+          <h3>Support Us!</h3>
+          <p>If we win, we'll distribute 10% of our SONIC tokens to players who played the game! Help us win by following and interacting with us on Twitter:</p>
+          <a 
+            href="https://x.com/CardCrushSONIC" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="twitter-link"
+          >
+            @CardCrushSONIC
+          </a>
+          <p className="mt-2">Your support makes a huge difference in the hackathon results!</p>
+        </div>
+      </section>
     </div>
   );
 };
-

@@ -7,7 +7,8 @@ import { createSonicTx } from './transactionSonic';
 import { CSSProperties } from 'react';
 import { fetchLevels, updateLevelStatus, getNextAvailableLevel } from './utils/levelManager';
 import { fetchGameTransactionHistory } from './utils/transactionHistory';
-
+import { useNavigate } from 'react-router-dom';
+import { setCurrentLevel } from './utils/currentLevel';
 
 const connection = new Connection('https://api.mainnet-alpha.sonic.game');
 
@@ -23,7 +24,7 @@ const candyImages = [
   "assets/newcards/bck.PNG",
   "assets/newcards/bnk.PNG",
   "assets/newcards/fre.PNG",
-  "assets/newcards/inu.PNG",
+  "assets/newcards/snc.PNG",
   "assets/newcards/jls.PNG",
   "assets/newcards/jto.PNG",
   "assets/newcards/nyl.PNG",
@@ -158,6 +159,10 @@ export function SonicGameScreen() {
   const [animatePoints, setAnimatePoints] = useState(false);
   const [gridSize, setGridSize] = useRecoilState(gridSizeState);
   const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true);
+  const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [completedLevel, setCompletedLevel] = useState<{name: string, score: number} | null>(null);
+  const [nextLevelInfo, setNextLevelInfo] = useState<{name: string} | null>(null);
 
   useEffect(() => {
     if (animateTurn) {
@@ -590,7 +595,7 @@ export function SonicGameScreen() {
   };  
 
   const entrySubmit = async () => {
-    //ATA for SONIC account of the SoniCiry4Ms7uVAMkPDx9Zdy8RK8cXHLsji7gVZRqtr wallet key
+    // ATA for SONIC account of the SoniCiry4Ms7uVAMkPDx9Zdy8RK8cXHLsji7gVZRqtr wallet key
     const receiver = new PublicKey("SoniCiry4Ms7uVAMkPDx9Zdy8RK8cXHLsji7gVZRqtr");
     const memoContent = `${matchCount}|${currentSeed}|${moves.join("|")}`;
     console.log(memoContent);
@@ -651,8 +656,11 @@ export function SonicGameScreen() {
         status = await getTransactionStatus(txid);
         console.log(status);
         if (status) {
-          setTransactionStatus(`TX confirmed! Explorer link: <a href="https://explorer.sonic.game/tx/${txid}" target="_blank" rel="noopener noreferrer"> TX Link</a>`);
+          setTransactionStatus(`TX confirmed! Explorer link: <a href="https://explorer.sonic.game/tx/${txid}" target="_blank" rel="noopener noreferrer">TX Link</a>`);
           setTransactionProcessing(false);
+          
+          // Transaction confirmed - handle level completion
+          await handleLevelCompletion(txid, matchCount);
           break;
         }
       }
@@ -665,6 +673,64 @@ export function SonicGameScreen() {
       console.error("Error submitting entry:", error);
       setTransactionStatus('Error submitting transaction.');
       setTransactionProcessing(false);
+    }
+  };
+  
+  // Add this new function to handle level completion
+  const handleLevelCompletion = async (txid: string, score: number) => {
+    try {
+      // Check if public key is available
+      if (!publicKey) {
+        console.error("Cannot handle level completion: Public key is null");
+        return;
+      }
+      
+      // Fetch updated level data
+      const allLevels = await fetchLevels();
+      
+      // Get player's updated game history (including the new transaction)
+      const gameEntries = await fetchGameTransactionHistory(publicKey);
+      
+      // Update level status based on history
+      const updatedLevels = updateLevelStatus(allLevels, gameEntries);
+      
+      // Find the completed level using the current seed
+      const completedLevel = updatedLevels.find(level => level.seed === currentSeed);
+      
+      if (completedLevel) {
+        // Set completed level info for success screen
+        setCompletedLevel({
+          name: completedLevel.name,
+          score: score
+        });
+        
+        // Find the next level 
+        const nextLevel = getNextAvailableLevel(updatedLevels);
+        
+        if (nextLevel) {
+          // Save next level as current level
+          setCurrentLevel(nextLevel);
+          setNextLevelInfo({ name: nextLevel.name });
+        }
+        
+        // Show success screen
+        setShowSuccess(true);
+      }
+    } catch (error) {
+      console.error("Error handling level completion:", error);
+    }
+  };
+  
+  // Add this function to handle continuing to the next level
+  const handleContinue = () => {
+    setShowSuccess(false);
+    
+    // If there's a next level, reload the page to initialize with the new level
+    if (nextLevelInfo) {
+      window.location.reload();
+    } else {
+      // If all levels are complete, navigate to the history screen
+      navigate('/history');
     }
   };
 
@@ -752,6 +818,28 @@ export function SonicGameScreen() {
           <img src={"assets/load.gif"} alt="Loading..." />
         </div>
       )}
+    {showSuccess && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
+        <div className="bg-gray-800 p-6 rounded-lg max-w-md w-full text-center">
+          <img src="/assets/SUCCESS.gif" alt="Level Complete" className="mx-auto w-32 h-32 mb-4" />
+          <h2 className="text-yellow-400 text-2xl font-bold mb-2">Level Complete!</h2>
+          
+          {completedLevel && (
+            <div className="mb-4">
+              <p className="text-white mb-1">You completed {completedLevel.name}</p>
+              <p className="text-yellow-400 text-xl font-bold">Score: {completedLevel.score}</p>
+            </div>
+          )}
+          
+          <button 
+            onClick={handleContinue}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-6 py-3 rounded-full mt-4"
+          >
+            {nextLevelInfo ? `Continue to ${nextLevelInfo.name}` : 'View Progress'}
+          </button>
+        </div>
+      </div>
+    )}
     </div>
   );
 }
