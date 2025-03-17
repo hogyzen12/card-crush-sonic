@@ -201,29 +201,32 @@ export function GlobalLeaderboard() {
         </div>
       ) : (
         <>
-          {/* Global Stats Summary */}
-          <div className="bg-gray-800 rounded-lg p-4 mb-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-center md:text-left">
-                <div className="text-sm text-gray-400">Total Players</div>
-                <div className="text-xl font-bold">
-                  {totalPlayers}
-                </div>
-              </div>
-              
-              <div className="text-center md:text-left">
-                <div className="text-sm text-gray-400">Total Games Played</div>
-                <div className="text-xl font-bold">
-                  {totalGames}
-                </div>
-              </div>
-              
-              <div className="text-center md:text-left">
-                <div className="text-sm text-gray-400">Avg. Games Per Player</div>
-                <div className="text-xl font-bold">
-                  {totalPlayers > 0 ? (totalGames / totalPlayers).toFixed(1) : '0'}
-                </div>
-              </div>
+          {/* Global Stats Summary as a Table */}
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-3">Game Statistics</h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-gray-800 rounded-lg overflow-hidden">
+                <thead className="bg-gray-900">
+                  <tr>
+                    <th className="py-2 px-3 text-left text-xs">Statistic</th>
+                    <th className="py-2 px-3 text-left text-xs">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t border-gray-700">
+                    <td className="py-2 px-3 text-sm font-medium">Total Players</td>
+                    <td className="py-2 px-3 text-sm">{totalPlayers}</td>
+                  </tr>
+                  <tr className="border-t border-gray-700">
+                    <td className="py-2 px-3 text-sm font-medium">Total Games Played</td>
+                    <td className="py-2 px-3 text-sm">{totalGames}</td>
+                  </tr>
+                  <tr className="border-t border-gray-700">
+                    <td className="py-2 px-3 text-sm font-medium">Avg. Games Per Player</td>
+                    <td className="py-2 px-3 text-sm">{totalPlayers > 0 ? (totalGames / totalPlayers).toFixed(1) : '0'}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
